@@ -1,5 +1,5 @@
 
-var CAPTURE_DELAY = 600;
+var CAPTURE_DELAY = 750;
 
 function onMessage(data, sender, callback) {
     if (data.msg === 'scrollPage') {
@@ -134,7 +134,7 @@ function getPositions(callback) {
         // Need to wait for things to settle
         window.setTimeout(function() {
             // In case the below callback never returns, cleanup
-            var cleanUpTimeout = window.setTimeout(cleanUp, 1250);
+            var cleanUpTimeout = window.setTimeout(cleanUp, 3000);
 
             chrome.runtime.sendMessage(data, function(captured) {
                 window.clearTimeout(cleanUpTimeout);
