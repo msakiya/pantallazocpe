@@ -45,6 +45,9 @@ window.CaptureAPI = (function() {
     function capture(data, screenshots, sendResponse, splitnotifier) {
         chrome.tabs.captureVisibleTab(
             null, {format: 'png'}, function(dataURI) {
+                if (chrome.runtime.lastError) {
+                    console.error('Error in captureVisibleTab:', chrome.runtime.lastError.message);
+                }
                 if (dataURI) {
                     var image = new Image();
                     image.onload = function() {
@@ -92,6 +95,8 @@ window.CaptureAPI = (function() {
                         sendResponse(JSON.stringify(data, null, 4) || true);
                     };
                     image.src = dataURI;
+                } else {
+                    sendResponse(false);
                 }
             });
     }
@@ -189,30 +194,8 @@ window.CaptureAPI = (function() {
 
     function saveBlob(blob, filename, index, callback, errback) {
         filename = _addFilenameSuffix(filename, index);
-
-        function onwriteend() {
-            // open the file that now contains the blob - calling
-            // `openPage` again if we had to split up the image
-            var urlName = ('filesystem:chrome-extension://' +
-                           chrome.i18n.getMessage('@@extension_id') +
-                           '/temporary/' + filename);
-
-            callback(urlName);
-        }
-
-        // come up with file-system size with a little buffer
-        var size = blob.size + (1024 / 2);
-
-        // create a blob for writing to a file
-        var reqFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-        reqFileSystem(window.TEMPORARY, size, function(fs){
-            fs.root.getFile(filename, {create: true}, function(fileEntry) {
-                fileEntry.createWriter(function(fileWriter) {
-                    fileWriter.onwriteend = onwriteend;
-                    fileWriter.write(blob);
-                }, errback); // TODO - standardize error callbacks?
-            }, errback);
-        }, errback);
+        var urlName = URL.createObjectURL(blob);
+        callback(urlName);
     }
 
 
@@ -261,9 +244,13 @@ window.CaptureAPI = (function() {
         });
 
         chrome.scripting.executeScript({target: {tabId: tab.id}, files: ['page.js']}, function() {
+            if (chrome.runtime.lastError) {
+                errback('Error injecting script: ' + chrome.runtime.lastError.message);
+                return;
+            }
             if (timedOut) {
                 console.error('Timed out too early while waiting for ' +
-                              'chrome.tabs.executeScript. Try increasing the timeout.');
+                              'chrome.scripting.executeScript. Try increasing the timeout.');
             } else {
                 loaded = true;
                 progress(0);
