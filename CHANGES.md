@@ -4,7 +4,7 @@ The simplest way to take a full page screenshot of your current browser window. 
 
 The only way to screenshot the entire page is to scroll to each visible part, so please be patient as it quickly assembles all the pieces. For the rare scenario where your page is too large for Chrome to store it in one image, it will let you know and split it up into just enough images in separate tabs.
 
-This is an open source project. Visit the Full Page Screen Capture Github page for more information, bug reports, or to contribute:
+This is an open source project. Visit the Pantallazo CPE Github page for more information, bug reports, or to contribute:
 
 https://github.com/mrcoles/full-page-screen-capture-chrome-extension
 

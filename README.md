@@ -1,4 +1,4 @@
-Full Page Screen Capture
+Pantallazo CPE
 ========================
 
 A simple Google Chrome extension that takes a screen capture of a full web page. Every extension I tried couldn’t do this on Chrome 22 on Mac OSX Lion. So, I built this one to reliably do it. (Not tested, yet, on any other configurations.)
@@ -15,7 +15,7 @@ For development:
 
 From the webstore:
 
-Find the [Full Page Screen Capture App](https://chrome.google.com/webstore/detail/full-page-screen-capture/fdpohaocaechififmbbbbbknoalclacl) in the Chrome Webstore and click install. (NOTE: the webstore version is now running on a private branch of this repo and will have more updates.)
+Find the [Pantallazo CPE App](https://chrome.google.com/webstore/detail/full-page-screen-capture/fdpohaocaechififmbbbbbknoalclacl) in the Chrome Webstore and click install. (NOTE: the webstore version is now running on a private branch of this repo and will have more updates.)
 
 ### Extra notes:
 
