@@ -12,10 +12,11 @@ function onMessage(data, sender, callback) {
     }
 }
 
-if (!window.hasScreenCapturePage) {
-    window.hasScreenCapturePage = true;
-    chrome.runtime.onMessage.addListener(onMessage);
+if (window.pantallazoOnMessage) {
+    chrome.runtime.onMessage.removeListener(window.pantallazoOnMessage);
 }
+window.pantallazoOnMessage = onMessage;
+chrome.runtime.onMessage.addListener(onMessage);
 
 function max(nums) {
     return Math.max.apply(Math, nums.filter(function(x) { return x; }));
