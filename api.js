@@ -260,7 +260,7 @@ window.CaptureAPI = (function() {
             }
         });
 
-        chrome.tabs.executeScript(tab.id, {file: 'page.js'}, function() {
+        chrome.scripting.executeScript({target: {tabId: tab.id}, files: ['page.js']}, function() {
             if (timedOut) {
                 console.error('Timed out too early while waiting for ' +
                               'chrome.tabs.executeScript. Try increasing the timeout.');
