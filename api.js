@@ -46,6 +46,13 @@ window.CaptureAPI = (function() {
         chrome.tabs.captureVisibleTab(
             null, {format: 'png'}, function(dataURI) {
                 if (chrome.runtime.lastError) {
+                    if (chrome.runtime.lastError.message.includes('MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND')) {
+                        console.warn('Rate limited by Chrome, retrying in 250ms...');
+                        setTimeout(function() {
+                            capture(data, screenshots, sendResponse, splitnotifier);
+                        }, 250);
+                        return;
+                    }
                     console.error('Error in captureVisibleTab:', chrome.runtime.lastError.message);
                 }
                 if (dataURI) {
